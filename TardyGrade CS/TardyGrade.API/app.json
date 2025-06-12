@@ -1,0 +1,6 @@
+{
+  "ConnectionStrings": {
+    "default": "Data Source=localhost;Initial Catalog=TardygradeStats;Integrated Security=True",
+    "baseURL": "http://172.16.128.51/"
+  }
+}

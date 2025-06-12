@@ -1,0 +1,291 @@
+﻿<Window x:Class="TardyGrade.WPF.StatistiquesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TardyGrade.WPF"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="StatistiquesWindow" Height="635" MinHeight="200" MinWidth="800" Width="1150">
+    <!-- Height="635" MinWidth="1040" Width="1150" -->
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid VerticalAlignment="Top" Margin="0,0,0,0" MinWidth="1070">
+            <StackPanel Height="100" VerticalAlignment="Top" Margin="20,14,-10,700">
+                <TextBlock 
+                    HorizontalAlignment="Left"
+                    FontSize="20" Margin="0,20,0,0" Height="27" Width="573">
+                    <Run Language="fr-fr" Text="Les statistiques entre le "/>
+                    <TextBlock x:Name="textBlockTitreDateDebut"/>
+                    <Run Language="fr-fr" Text=" et le "/>
+                    <TextBlock x:Name="textBlockTitreDateFin"/>
+                </TextBlock>
+                <Button FontSize="12" Content="Retour à la fenêtre principale" HorizontalAlignment="Right" Margin="0,0,50,0" Height="30" Width="164" Click="ReturnToMainWindow_Click"/>
+            </StackPanel>
+
+            <StackPanel Height="220" Margin="20,104,20,490" VerticalAlignment="Top">
+                <TextBlock Text="Statistiques"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Margin="0,0,0,10"/>
+                <TextBlock x:Name="textBlockId" HorizontalAlignment="Left" Margin="10,0,0,5" Width="350px"/>
+                <TextBlock x:Name="textBlockDateDebut" HorizontalAlignment="Left" Margin="10,0,0,5" Width="350px"/>
+                <TextBlock x:Name="textBlockDateFin" HorizontalAlignment="Left" Margin="10,0,0,5" Width="350px"/>
+                <TextBlock x:Name="textBlockNombreCreationsComptes" HorizontalAlignment="Left" Margin="10,0,0,5" Width="350px"/>
+                <TextBlock x:Name="textBlockNombreCreationsPosts" HorizontalAlignment="Left" Margin="10,0,0,5" Width="350px"/>
+                <TextBlock x:Name="textBlockNombreCreationsCommentaires" HorizontalAlignment="Left" Margin="10,0,0,5" Width="350px"/>
+                <TextBlock x:Name="textBlockNombreCreationsLikes" HorizontalAlignment="Left" Margin="10,0,0,5" Width="350px"/>
+                <lvc:CartesianChart Series="{Binding SeriesCollectionNombreStats}" LegendLocation="Top" Height="171" HorizontalAlignment="Right"  Margin="0,-150,0,0" Width="672">
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Création" Labels="{Binding LabelsNombreStats}"/>
+                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Nombre" LabelFormatter="{Binding Formatter}"/>
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
+            </StackPanel>
+
+            <!-- Les Comptes -->
+            <StackPanel Height="300" Margin="20,350,20,0" VerticalAlignment="Top" >
+                <!-- Titre comptes -->
+                <TextBlock Text="Les comptes"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Margin="0,0,0,0"/>
+                <!-- Comptes postant le plus -->
+                <TextBlock Text="Comptes postant le plus"
+                FontSize="16"
+                FontWeight="Bold"
+                Margin="5,10,0,0"/>
+
+                <!-- Faire un tableau des information des comptes DTO -->
+                <Grid Height="250">
+                    <StackPanel>
+                        <DataGrid x:Name="dataGridComptesPostantLePlus" AutoGenerateColumns="False" HorizontalAlignment="Left" MaxWidth="550" Margin="10,20,0,0" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Pseudo" Width="110" MaxWidth="510" Binding="{Binding Pseudo}"/>
+                                <DataGridTextColumn Header="Posts" Width="90" MaxWidth="400" Binding="{Binding NombrePosts}">
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="Background" Value="LightGreen"/>
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Commentaires" MaxWidth="400" Width="90" Binding="{Binding NombreCommentaires}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+            
+                    <StackPanel VerticalAlignment="Center">
+                        <lvc:CartesianChart Series="{Binding SeriesCollectionComptesPostantLePlus}" LegendLocation="Top" Height="171" HorizontalAlignment="Right"  Margin="0,0,0,0" Width="672">
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis Title="Classement" Labels="{Binding LabelsComptesPostantLePlus}" LabelsRotation="45"/>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Title="Nombre" LabelFormatter="{Binding Formatter}"/>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+
+            <StackPanel Height="270" Margin="20,680,20,0" VerticalAlignment="Top">
+                <!-- Comptes postant le plus -->
+                <TextBlock Text="Comptes commantant le plus"
+                FontSize="16"
+                FontWeight="Bold"
+                Margin="5,0,0,0"/>
+
+                <!-- Faire un tableau des information des comptes DTO -->
+                <Grid Height="250">
+                    <StackPanel>
+                        <DataGrid x:Name="dataGridComptesCommentantLePlus" AutoGenerateColumns="False" HorizontalAlignment="Left" MaxWidth="550" Margin="10,20,0,0" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Pseudo" Width="110" MaxWidth="510" Binding="{Binding Pseudo}"/>
+                                <DataGridTextColumn Header="Commentaires" Width="90" MaxWidth="400" Binding="{Binding NombreCommentaires}">
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="Background" Value="LightGreen"/>
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Posts" MaxWidth="400" Width="90" Binding="{Binding NombrePosts}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+
+                    <StackPanel VerticalAlignment="Center">
+                        <lvc:CartesianChart Series="{Binding SeriesCollectionComptesCommentantLePlus}" LegendLocation="Top" Height="171" HorizontalAlignment="Right"  Margin="0,0,0,0" Width="672">
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis Title="Classement" Labels="{Binding LabelsComptesCommentantLePlus}" LabelsRotation="45"/>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Title="Nombre" LabelFormatter="{Binding Formatter}"/>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+
+            <!-- Les Posts -->
+            <StackPanel Height="300" Margin="20,970,20,0" VerticalAlignment="Top">
+                <!-- Titre comptes -->
+                <TextBlock Text="Les posts"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Margin="0,0,0,0"/>
+
+                <Grid Margin="0,30,0,0" Height="200">
+                    <StackPanel>
+                        <TextBlock x:Name="textMoyenneLikesPosts" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="350px"/>
+                        <TextBlock x:Name="textMoyenneComPosts" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="350px"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <lvc:CartesianChart Series="{Binding SeriesCollectionMoyPosts}" LegendLocation="Top" Height="171" HorizontalAlignment="Right"  Margin="0,0,0,0" Width="500">
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis Title="" Labels="{Binding LabelsMoyPosts}"/>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Title="En moyenne par post" LabelFormatter="{Binding Formatter}"/>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                    </StackPanel>
+                </Grid>
+                
+            </StackPanel>
+
+            <!-- Posts avec le plus de likes -->
+            <StackPanel Height="300" Margin="20,1250,20,0" VerticalAlignment="Top">
+                <TextBlock Text="10 posts les plus likés :"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Margin="5,10,0,0"/>
+
+                <!-- Faire un tableau des information des posts DTO -->
+                <Grid Height="250">
+                    <StackPanel Grid.Row="0">
+                        <DataGrid x:Name="dataGridPostsLikesLePlus" AutoGenerateColumns="False" HorizontalAlignment="Left" 
+                                  BorderBrush="Black" AlternatingRowBackground="#F4F4F4" Background="White" BorderThickness="1"
+                                  RowBackground="#EAEAEA"
+                                  GridLinesVisibility="None" HorizontalGridLinesBrush="#FFDCDCDC"
+                                  VerticalGridLinesBrush="#FFDCDCDC"
+                                  HeadersVisibility="Column" Width="450"
+                                  MaxWidth="550" Margin="10,20,0,0" IsReadOnly="True">
+                            <DataGrid.Resources>
+                                <!-- Style pour les en-tÃªtes de colonne -->
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#FFD8D8D8" />
+                                    <Setter Property="Foreground" Value="#333333" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Width="25" MaxWidth="50" Binding="{Binding Id_Post}"/>
+                                <DataGridTextColumn Header="Posteur" MaxWidth="400" Width="90" Binding="{Binding PseudoAuteur}"/>
+                                <DataGridTextColumn Header="Titre" MaxWidth="400" Width="90" Binding="{Binding Titre}"/>
+                                <DataGridTextColumn Header="DatePublication" Width="110" MaxWidth="510" Binding="{Binding DatePublication}"/>
+                                <DataGridTextColumn Header="Likes" Width="50" MaxWidth="400" Binding="{Binding NombreLikes}">
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="Background" Value="LightGreen"/>
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="SuperLikes" Width="70" MaxWidth="400" Binding="{Binding NombreSuperLikes}"/>
+                                <DataGridTextColumn Header="Commentaires" Width="90" MaxWidth="400" Binding="{Binding NombreCommentaires}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                        <lvc:CartesianChart Series="{Binding SeriesCollectionPostsPlusLikes}" LegendLocation="Top" Height="171" HorizontalAlignment="Right"  Margin="0,0,0,0" Width="565">
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis Title="Classement" Labels="{Binding LabelsPostsPlusLikes}" LabelsRotation="45"/>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Title="Likes" LabelFormatter="{Binding Formatter}"/>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+
+            <!-- Posts avec le plus de super likes -->
+            <StackPanel Height="300" Margin="20,1550,20,0" VerticalAlignment="Top">
+                <TextBlock Text="10 posts les plus super likés :"
+                FontSize="16"
+                FontWeight="Bold"
+                Margin="5,10,0,0"/>
+
+                <!-- Faire un tableau des information des posts DTO -->
+                <Grid Height="250">
+                    <StackPanel Grid.Row="0">
+                        <DataGrid x:Name="dataGridPostsSuperLikesLePlus" AutoGenerateColumns="False" HorizontalAlignment="Left" MaxWidth="550" Margin="10,20,0,0" IsReadOnly="True"
+                                  BorderBrush="Black" AlternatingRowBackground="#F4F4F4" Background="White" BorderThickness="1"
+                                RowBackground="#EAEAEA"
+                                GridLinesVisibility="None" HorizontalGridLinesBrush="#FFDCDCDC"
+                                VerticalGridLinesBrush="#FFDCDCDC"
+                                HeadersVisibility="Column" Width="450">
+                            <DataGrid.Resources>
+                                <!-- Style pour les en-tÃªtes de colonne -->
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#FFD8D8D8" />
+                                    <Setter Property="Foreground" Value="#333333" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Width="25" MaxWidth="50" Binding="{Binding Id_Post}"/>
+                                <DataGridTextColumn Header="Posteur" MaxWidth="400" Width="90" Binding="{Binding PseudoAuteur}"/>
+                                <DataGridTextColumn Header="Titre" MaxWidth="400" Width="90" Binding="{Binding Titre}"/>
+                                <DataGridTextColumn Header="DatePublication" Width="110" MaxWidth="510" Binding="{Binding DatePublication}"/>
+                                <DataGridTextColumn Header="Likes" Width="50" MaxWidth="400" Binding="{Binding NombreLikes}"/>
+                                <DataGridTextColumn Header="SuperLikes" Width="70" MaxWidth="400" Binding="{Binding NombreSuperLikes}">
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="Background" Value="LightBlue"/>
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Commentaires" Width="90" MaxWidth="400" Binding="{Binding NombreCommentaires}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                        <lvc:CartesianChart Series="{Binding SeriesCollectionPostsPlusSuperLikes}" LegendLocation="Top" Height="171" HorizontalAlignment="Right"  Margin="0,0,0,0" Width="565">
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis Title="Classement" Labels="{Binding LabelsPostsPlusSuperLikes}" LabelsRotation="45"/>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Title="Super Likes" LabelFormatter="{Binding Formatter}"/>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+            
+            <!-- Bouton de suppression de la stat -->
+            <Button Content="Supprimer la statistique" HorizontalAlignment="Right" VerticalAlignment="Top" Background="OrangeRed" FontSize="14" FontWeight="Bold" Margin="0,1850,20,20" Height="30" Width="164" Click="Button_Supprimer_Stat_Click"/>
+
+            <!-- Boîte de dialogue modale -->
+            <Grid Name="ConfirmationDialog" Visibility="Collapsed" Background="#80000000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDown="ConfirmationDialog_MouseDown">
+                <Border Background="White" Padding="20" VerticalAlignment="Top" HorizontalAlignment="Center" CornerRadius="10" Margin="0,1750,0,0"  MouseDown="ConfirmationDialog_Content_MouseDown">
+                    <StackPanel>
+                        <TextBlock Margin="0,0,0,10">
+                            <Run Language="fr-fr" Text="Êtes-vous sûr de vouloir supprimer les statistiques entre le "/>
+                            <TextBlock x:Name="textBlockConfirmationDateDebut"/>
+                            <Run Language="fr-fr" Text=" et le "/>
+                            <TextBlock x:Name="textBlockConfirmationDateFin"/>
+                            <Run Language="fr-fr" Text=" ? Si oui, écrivez 'oui' sinon, cliquez sur Annuler."/>
+                        </TextBlock>
+                        <TextBox Name="ConfirmationTextBox" Width="200" Margin="0,0,0,10" KeyDown="ConfirmationTextBox_KeyDown"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="Confirmer" Width="75" Margin="5" Click="ConfirmButton_Click"/>
+                            <Button Content="Annuler" Width="75" Margin="5" Click="CancelButton_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</Window>

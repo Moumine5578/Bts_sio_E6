@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "baseURL": "http://172.16.128.51/"
+  }
+}

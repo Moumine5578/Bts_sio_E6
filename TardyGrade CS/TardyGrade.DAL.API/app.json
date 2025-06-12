@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "default": "Data Source=localhost;Initial Catalog=TardygradeStats;Integrated Security=True"
+  }
+}

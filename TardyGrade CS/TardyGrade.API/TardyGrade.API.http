@@ -1,0 +1,6 @@
+@TardyGrade.API_HostAddress = http://localhost:5017
+
+GET {{TardyGrade.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
