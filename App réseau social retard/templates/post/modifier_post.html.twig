@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un retard{% endblock %}
+
+{% block body %}
+    {{ form_errors(postForm) }}
+
+    {{ form_start(postForm) }}
+    <h1>Modifier un retard</h1>
+    {{ form_row(postForm.titre, {
+        label: false,
+        attr: { placeholder: 'Titre' }
+    }) }}
+    {{ form_row(postForm.description_post, {
+        label: false,
+        attr: { placeholder: 'Description' }
+    }) }}
+    {{ form_row(postForm.tempsRetards, {
+        label: false,
+        attr: {
+            placeholder: 'Temps de retard (en min)',
+            class: 'etablissement'
+        }
+    }) }}
+    {{ form_row(postForm.etablissement, {
+        label: "Etablissement",
+        attr: {
+            placeholder: 'Etablissement',
+            class: 'etablissement'
+        },
+    }) }}
+    <button type="submit" class="btn">Modifier</button>
+    {{ form_end(postForm) }}
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        /* Style de base pour le formulaire */
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        /* Style pour les erreurs de formulaire */
+        .error-message {
+            color: red;
+        }
+
+        /* Style pour les champs de formulaire */
+        form input[type="text"],
+        form input[type="password"]{
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .etablissement {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            /* Ajoutez d'autres styles personnalisés selon vos besoins */
+        }
+
+        /* Style pour le bouton de soumission */
+        form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+{% endblock %}

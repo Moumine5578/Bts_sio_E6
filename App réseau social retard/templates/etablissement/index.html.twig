@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tardy-Grade{% endblock %}
+
+{% block body %}
+
+    {% include 'post/_menu.html.twig' %}
+
+    <div class="content">
+        <div class="header">
+            <h2 class="etablissements-title">Etablissements</h2>
+
+            <a href="" class="bouton add-etablissement">Nouvelle demande</a>
+        </div>
+        <div class="etablissements">
+            {% for etablissement in etablissements %}
+                <div class="etablissement">
+                    <div class="etablissement-header">
+                        <h1 class="etablissement-pseudo"><a href="{{ path('app_page_etablissement', {'nom': etablissement.nom}) }}">{{ etablissement.nom }}</a></h1>
+                        <p class="date">{{ etablissement.datecreation|format_datetime(pattern="d MMMM", locale="fr") }}</p>
+                        <h2 class="etablissement-title">{{ etablissement.adresse }}</h2>
+                    </div>
+                    <p>{{ etablissement.description }}</p>
+                    <div class="bouton">
+                        <a href="" class="button" style="background-color: green">Suivre</a>
+                        <a href="" class="button" style="background-color: red">Signaler</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        /* Style pour le contenu */
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .etablissements {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .etablissement {
+            flex-basis: calc(30% - 20px);
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 500px;
+        }
+
+        @media (max-width: 600px) {
+            .etablissement {
+                flex-basis: 100%;
+            }
+        }
+
+
+        .etablissement-header {
+            display: inline-block;
+        }
+
+        .etablissement-pseudo a{
+            color: black;
+            text-decoration: none;
+        }
+
+        .etablissement-pseudo, .date {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+
+        .etablissement h2{
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .etablissement h1{
+            color: #333;
+            font-size: 30px;
+            margin-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .etablissement p {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .etablissement .date {
+            color: #999;
+            font-size: 16px;
+        }
+
+        .etablissement .retard {
+            color: #f00;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .bouton {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-etablissement {
+            background-color: #007bff;
+        }
+
+    </style>
+{% endblock %}

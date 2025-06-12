@@ -1,0 +1,204 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page de {{ etablissement.nom }}{% endblock %}
+
+{% block body %}
+
+    {% include 'post/_menu.html.twig' %}
+
+    <div class="content">
+        <div class="profile-container">
+            <div class="profile-info">
+                <h1>{{ etablissement.nom }}</h1>
+                <p>{{ etablissement.description }}</p>
+                <div class="profile-stats">
+                    <p>{{ nbusers }} utilisateurs</p>
+                </div>
+                <a href="" class="button">Suivre</a>
+            </div>
+        </div>
+        <div class="posts">
+            {% for post in posts %}
+                <div class="post">
+                    <div class="post-header">
+                        <h1 class="post-pseudo"><a href="{{ path('app_page_utilisateur', {'pseudo': post.utilisateur.pseudo}) }}">{{ post.utilisateur.pseudo }}</a></h1>
+                        <p class="date">{{ post.datepost|format_datetime(pattern="d MMMM", locale="fr") }}</p>
+                        <h2 class="post-title">{{ post.titre }}</h2>
+                    </div>
+                    <p>{{ post.descriptionpost }}</p>
+                    {% set heures = post.tempsretards // 60 %}
+                    {% set minutes = post.tempsretards % 60 %}
+                    <p class="retard">
+                        Retard:
+                        {% if heures > 0 %}
+                            {{ heures }} heure{{ heures > 1 ? 's' : '' }}
+                        {% endif %}
+                        {% if minutes > 0 %}
+                            {{ minutes }} minute{{ minutes > 1 ? 's' : '' }}
+                        {% endif %}
+                    </p>
+                    <p>Établissement : {{ post.etablissement }}</p>
+                    <div class="bouton">
+                        {% if app.user and app.user.id == post.utilisateur.id %}
+                            <a href="{{ path('app_modifier_post', {'id': post.id}) }}" class="button">Modifier</a>
+                            <a href="{{ path('app_supprimer_post', {'id': post.id}) }}" class="button" style="background-color: red">Supprimer</a>
+                        {% else %}
+                            <a href="" class="button" style="background-color: green">Like</a>
+                            <a href="" class="button" style="background-color: goldenrod">Superlike</a>
+                            <a href="" class="button" style="background-color: red">Signaler</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% else %}
+                    <p>Aucun post pour cet établissement</p>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        /* Style pour le contenu */
+
+        .profile-container {
+            max-width: 600px;
+            margin: 10px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        .profile-photo {
+            flex-shrink: 0;
+            margin-right: 20px;
+        }
+        .profile-photo img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        .profile-info {
+            flex-grow: 1;
+        }
+        .profile-info h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .profile-info p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .profile-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .profile-stats p {
+            font-size: 14px;
+            color: #999;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .posts {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .post {
+            flex-basis: calc(30% - 20px);
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 500px;
+        }
+
+        @media (max-width: 600px) {
+            .post {
+                flex-basis: 100%;
+            }
+        }
+
+
+        .post-header {
+            display: inline-block;
+        }
+
+        .post-pseudo a{
+            color: black;
+            text-decoration: none;
+        }
+
+        .post-pseudo, .date {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+
+        .post h2{
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .post h1{
+            color: #333;
+            font-size: 30px;
+            margin-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .post p {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .post .date {
+            color: #999;
+            font-size: 16px;
+        }
+
+        .post .retard {
+            color: #f00;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .bouton {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-post {
+            background-color: #007bff;
+        }
+
+        .add-post:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+{% endblock %}

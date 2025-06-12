@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+
+
+    {{ form_errors(userForm) }}
+
+    {{ form_start(userForm) }}
+    <h1>Modifier le profil</h1>
+    {{ form_row(userForm.pseudo, {
+        label: false,
+        attr: { placeholder: 'Nom d\'utilisateur' }
+    }) }}
+    {{ form_row(userForm.biographie, {
+        label: false,
+        attr: { placeholder: 'Biographie' }
+    }) }}
+    {{ form_row(userForm.photoProfil, {
+        label: false,
+        attr: { placeholder: 'Photo de profil' }
+    }) }}
+    {{ form_row(userForm.etablissement, {
+        label: "Etablissement",
+        attr: {
+            placeholder: 'Etablissement',
+            class: 'etablissement'
+        }
+    }) }}
+    {{ form_row(userForm.email, {
+        label: false,
+        attr: { placeholder: 'Email' }
+    }) }}
+    {{ form_row(userForm.plainPassword, {
+        label: false,
+        attr: { placeholder: 'Mot de passe' }
+    }) }}
+    <button type="submit" class="btn">Modifier</button>
+    {{ form_end(userForm) }}
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        /* Style de base pour le formulaire */
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        /* Style pour les erreurs de formulaire */
+        .error-message {
+            color: red;
+        }
+
+        /* Style pour les champs de formulaire */
+        form input[type="text"],
+        form input[type="password"]{
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .etablissement {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            /* Ajoutez d'autres styles personnalisés selon vos besoins */
+        }
+
+        /* Style pour le bouton de soumission */
+        form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+{% endblock %}
